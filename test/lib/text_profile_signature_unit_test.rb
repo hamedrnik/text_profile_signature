@@ -56,7 +56,7 @@ class TextProfileSignatureGeneratorTest < TextProfileSignatureTest
   end
   
   def test_pt_lang
-    page = get_wikipedia_article("it")
+    page = get_wikipedia_article("pt")
     sign = @text_profile_signature.generate_sign(page[:article])
     assert_equal sign, page[:signature]
   end

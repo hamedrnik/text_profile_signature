@@ -20,7 +20,7 @@ require 'digest'
 require 'unicode'
 
 class TextProfileSignature
-  VERSION = "0.0.1" unless defined? TextProfileSignature::VERSION
+  VERSION = "0.1.0" unless defined? TextProfileSignature::VERSION
   
   def initialize(options={})
     options[:min_token_length] ||= 2
@@ -93,13 +93,13 @@ class TextProfileSignature
     end
     
     # sort the list of tokens by decreasing frequency
-    profile = quantized_tokens.sort {|x, y| y[:count] <=> x[:count]}
+    profile = quantized_tokens.sort {|x, y| [y[:count], x[:term]] <=> [x[:count], y[:term]]}
 
     # create a list of tokens and their quantized frequency, 
     # separated by spaces, in the order of decreasing frequency
     quantized_frequency_str = profile.map do |a|
       "#{a[:term]} #{a[:count]}"
-    end.join('\n')
+    end.join("\n")
     
     Digest::MD5.hexdigest(quantized_frequency_str)
   end
